@@ -1,4 +1,4 @@
-﻿function Test-IsGuid
+function Test-IsGuid
 {
 	[OutputType([bool])]
 	param
