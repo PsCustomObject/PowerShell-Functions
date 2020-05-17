@@ -20,4 +20,4 @@ Functions in the repository are usually ported into my PowerShell modules but ar
 
 - **[Convert-EmlFile](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Convert-EmlFile.ps1)** used to convert any .eml file into an easy to use PowerShell object
 
-  - **[New-StringConversion](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/New-StringConversion.ps1)** used to convert special characters from strings
+- **[New-StringConversion](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/New-StringConversion.ps1)** used to convert special characters from strings
