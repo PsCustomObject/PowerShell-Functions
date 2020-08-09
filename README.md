@@ -18,10 +18,12 @@ Functions in the repository are usually ported into my PowerShell modules but ar
 
 - **[Test-IsGuid](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Test-IsGuid.ps1)** used to check if a string is a valid GUID
 
-- **[Convert-EmlFile](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Convert-EmlFile.ps1)** used to convert any .eml file into an easy to use PowerShell object
+- **[Convert-EmlFile](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Convert-EmlFile.ps1)** used to convert any eml file into an easy to use PowerShell object
 
 - **[New-StringConversion](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/New-StringConversion.ps1)** used to convert special characters from strings
 
 - **[Test-IsRegistryKey](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Test-IsRegistryKey.ps1)** used to check if a registry key is valid. Function is a helper for *[Export-Registry](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Export-Registry.ps1)*
 
 - **[Export-Registry](https://github.com/PsCustomObject/PowerShell-Functions/blob/master/Export-Registry.ps1)** used to export registry key in either *CSV* or *XML* format
+
+- **[Test-IsValidDN](https://github.com/PsCustomObject/PowerShell-Functions/Test-IsValidDn.ps1)** used to test if an input string is a valid **AD Distinguished Name**
