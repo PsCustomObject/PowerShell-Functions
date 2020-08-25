@@ -14,9 +14,6 @@ function Test-IsValidDN
         
         .EXAMPLE
             PS C:\> Test-IsValidDN -ObjectDN 'Value1'
-        
-        .NOTES
-            Additional information about the function.
     #>
     
     [OutputType([bool])]
@@ -29,8 +26,21 @@ function Test-IsValidDN
         $ObjectDN
     )
     
+    # Create new string builder
+    [System.Text.StringBuilder]$regexStringBuilder = [System.Text.StringBuilder]::New()
+    [void]($regexStringBuilder.Append('^(?:[A-Za-z][\w-]*|\d+(?:\.\d+)*)=(?:#(?:[\dA-Fa-f]{2})+|'))
+    [void]($regexStringBuilder.Append('(?:[^,=\+<>#;\\"]|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]{2})*|"(?:'))
+    [void]($regexStringBuilder.Append('[^\\"]|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]{2})*")(?:\+(?:[A-Za-z]'))
+    [void]($regexStringBuilder.Append('[\w-]*|\d+(?:\.\d+)*)=(?:#(?:[\dA-Fa-f]{2})+|(?:[^,=\+<>#;\\"]'))
+    [void]($regexStringBuilder.Append('|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]{2})*|"(?:[^\\"]|\\[,=\+<>#;\\"]|'))
+    [void]($regexStringBuilder.Append('\\[\dA-Fa-f]{2})*"))*(?:,(?:[A-Za-z][\w-]*|\d+(?:\.\d+)*)=(?:#'))
+    [void]($regexStringBuilder.Append('(?:[\dA-Fa-f]{2})+|(?:[^,=\+<>#;\\"]|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]'))
+    [void]($regexStringBuilder.Append('{2})*|"(?:[^\\"]|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]{2})*")(?:\+(?:[A-Za-z]'))
+    [void]($regexStringBuilder.Append('[\w-]*|\d+(?:\.\d+)*)=(?:#(?:[\dA-Fa-f]{2})+|(?:[^,=\+<>#;\\"]|\\[,=\'))
+    [void]($regexStringBuilder.Append('+<>#;\\"]|\\[\dA-Fa-f]{2})*|"(?:[^\\"]|\\[,=\+<>#;\\"]|\\[\dA-Fa-f]{2})*"))*)*$'))
+    
     # Define DN Regex
-    [regex]$distinguishedNameRegex = '^(?:(?<cn>CN=(?<name>(?:[^,]|\,)*)),)?(?:(?<path>(?:(?:CN|OU)=(?:[^,]|\,)+,?)+),)?(?<domain>(?:DC=(?:[^,]|\,)+,?)+)$'
+    [string]$distinguishedNameRegex = $regexStringBuilder.ToString()
     
     return $ObjectDN -match $distinguishedNameRegex
 }
