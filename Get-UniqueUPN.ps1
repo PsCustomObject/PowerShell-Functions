@@ -160,7 +160,6 @@ function Get-UniqueUPN
     
     while (Test-UPNExist -UPN $uniqueUPN -Server $ADServer)
     {
-        
         $uniqueUPN = '{0}{1}@{2}' -f ($baseUPN.Split('@')[0]), $counter, $UPNSuffix
         
         $counter++
