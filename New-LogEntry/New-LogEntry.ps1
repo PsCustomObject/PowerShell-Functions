@@ -1,3 +1,5 @@
+#Requires -Version 7.1
+
 $script:NewLogEntryRoot = $PSScriptRoot
 
 if ([string]::IsNullOrWhiteSpace($script:NewLogEntryRoot))
