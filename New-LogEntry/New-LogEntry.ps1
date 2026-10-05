@@ -18,6 +18,7 @@ $script:NewLogEntrySourceFiles = @(
     'Private/Add-NewLogEntryBuffer.ps1'
     'Private/Get-NewLogEntryBuffer.ps1'
     'Private/Clear-NewLogEntryBuffer.ps1'
+    'Private/Flush-NewLogEntryBuffer.ps1'
     'Public/New-LogEntry.ps1'
 )
 

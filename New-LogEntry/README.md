@@ -22,6 +22,7 @@ New-LogEntry/
 │   ├── Add-NewLogEntryBuffer.ps1
 │   ├── Clear-NewLogEntryBuffer.ps1
 │   ├── ConvertTo-NewLogEntryRedactedMessage.ps1
+│   ├── Flush-NewLogEntryBuffer.ps1
 │   ├── Format-NewLogEntry.ps1
 │   ├── Get-NewLogEntryBuffer.ps1
 │   ├── Get-NewLogEntryMutexName.ps1
@@ -125,7 +126,13 @@ Clear the buffer without writing it:
 New-LogEntry -ClearBuffer
 ```
 
-Buffer access is synchronized for runspace scenarios. Callers should interact with the buffer through the public parameters rather than accessing the backing state directly.
+Buffer snapshot, file write and removal are synchronized as one operation. Failed
+writes retain entries for retry; only the written prefix is removed on success.
+A partial filesystem write can leave content on disk, so retrying after an I/O
+failure does not guarantee exactly-once delivery.
+
+Without `-LogFilePath`, logs are created beside the calling script, or in the
+current directory for interactive calls. Specify a path for a stable filename. Callers should interact with the buffer through the public parameters rather than accessing the backing state directly.
 
 ## Concurrent file writes
 
@@ -174,6 +181,8 @@ New-LogEntry `
     -RedactionText '<secret>'
 ```
 
+`-RedactionText` is literal text: dollar signs are not expanded as regex substitutions.
+
 Redaction reduces accidental credential exposure in logs, but it should not be treated as a substitute for proper secret-management practices.
 
 ## Backward-compatible severity switches
@@ -184,6 +193,8 @@ The preferred severity interface is `-Level`, but the legacy switches remain ava
 New-LogEntry -LogMessage 'Warning' -IsWarningMessage -LogFilePath './application.log'
 New-LogEntry -LogMessage 'Failure' -IsErrorMessage -LogFilePath './application.log'
 ```
+
+Combining multiple buffered severity switches is rejected. Individual switches remain supported.
 
 Mixing `-Level` with a legacy severity switch is rejected rather than silently choosing one behavior.
 
@@ -198,7 +209,10 @@ The project includes a Pester 5 test suite covering the current behavioral contr
 - pipeline batching
 - buffering, flushing, and clearing
 - pass-through output
-- built-in and custom secret redaction
+- built-in and custom secret redaction, including literal replacement text
+- default paths from calling scripts and interactive sessions
+- buffer retention and retry after failed writes
+- simultaneous direct and buffered writes from three processes
 
 Install Pester if necessary:
 
